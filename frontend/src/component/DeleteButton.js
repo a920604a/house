@@ -1,4 +1,7 @@
 import React from 'react';
+import { Button, ButtonGroup } from '@chakra-ui/react'
+import { MdDelete } from "react-icons/md";
+
 
 function DeleteButton({ houseId, onDelete }) {
     console.log('houseIdhouseId =', houseId);
@@ -11,8 +14,8 @@ function DeleteButton({ houseId, onDelete }) {
             });
             if (!response.ok) {
                 throw new Error('Failed to delete house');
-              }
-          
+            }
+
             const data = await response.json();
             console.log(data); // 可以根据返回的数据做进一步处理
             // 触发 onDelete 回调函数
@@ -23,7 +26,9 @@ function DeleteButton({ houseId, onDelete }) {
     };
 
     return (
-        <button onClick={handleClick}>删除</button>
+        <Button leftIcon={<MdDelete />}  colorScheme='pink' variant='solid' onClick={handleClick}>
+            删除
+        </Button>
     );
 }
 

@@ -33,6 +33,14 @@ function AddHouseForm() {
   return (
     <form onSubmit={handleSubmit}>
       <label>
+        樓層:
+        <input type="text" name="floor" value={formData.floor} onChange={handleChange} />
+      </label>
+      <label>
+        坪數:
+        <input type="text" name="area" value={formData.area} onChange={handleChange} />
+      </label>
+      <label>
         屋齡:
         <input type="text" name="age" value={formData.age} onChange={handleChange} />
       </label>
@@ -44,14 +52,7 @@ function AddHouseForm() {
         地址:
         <input type="text" name="address" value={formData.address} onChange={handleChange} />
       </label>
-      <label>
-        樓層:
-        <input type="text" name="floor" value={formData.floor} onChange={handleChange} />
-      </label>
-      <label>
-        坪數:
-        <input type="text" name="area" value={formData.area} onChange={handleChange} />
-      </label>
+
       <button type="submit">新增房屋</button>
     </form>
   );

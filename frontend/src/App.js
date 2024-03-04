@@ -10,9 +10,16 @@ function App() {
   const [houses, setHouses] = useState([]);
 
   useEffect(() => {
+    // 初始加載房屋列表
     fetchHouses();
-  }, []);
 
+    // 每秒更新房屋列表
+    const interval = setInterval(() => {
+      fetchHouses();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
   const fetchHouses = async () => {
     try {
       const response = await fetch('http://localhost:8000/addHouse/house_list/');
@@ -36,7 +43,7 @@ function App() {
       <h2>House List</h2>
       <HouseList houses={houses} onDelete={handleDelete} />
       {/* <HouseList /> */}
-      
+
     </div>
   );
 }
