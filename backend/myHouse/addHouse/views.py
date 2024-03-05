@@ -38,6 +38,7 @@ def house_list(request):
             'address': house.address,
             'floor': house.floor,
             'area': house.area,
+            'updated_at': house.updated_at.strftime("%Y-%m-%d %H:%M:%S"),  # 格式化 updated_at 欄位
         }
         house_list.append(house_data)
 

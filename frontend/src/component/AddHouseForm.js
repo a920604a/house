@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Stack, VStack, HStack,
+  Button,
+  Text
+} from '@chakra-ui/react';
 
 function AddHouseForm() {
   const [formData, setFormData] = useState({
     age: '',
     url: '',
     address: '',
-    floor: '',
+    currentFloor: '', // 新增目前樓層欄位
+    totalFloors: '',  // 新增總樓層欄位
     area: ''
   });
 
@@ -32,29 +43,43 @@ function AddHouseForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        樓層:
-        <input type="text" name="floor" value={formData.floor} onChange={handleChange} />
-      </label>
-      <label>
-        坪數:
-        <input type="text" name="area" value={formData.area} onChange={handleChange} />
-      </label>
-      <label>
-        屋齡:
-        <input type="text" name="age" value={formData.age} onChange={handleChange} />
-      </label>
-      <label>
-        網址:
-        <input type="text" name="url" value={formData.url} onChange={handleChange} />
-      </label>
-      <label>
-        地址:
-        <input type="text" name="address" value={formData.address} onChange={handleChange} />
-      </label>
+      <Stack shouldWrapChildren direction='row'>
+        <VStack>
+          <Text>樓層/總樓層 </Text>
+          <HStack>
+            <NumberInput size='lg' maxW={80} defaultValue={15} min={10} onChange={(value) => handleChange(value, 'currentFloor')}>
+              <NumberInputField />
+            </NumberInput>
+            <Text>/</Text>
+            <NumberInput size='lg' maxW={80} defaultValue={15} min={10} onChange={(value) => handleChange(value, 'totalFloors')}>
+              <NumberInputField />
+            </NumberInput></HStack>
+        </VStack>
 
-      <button type="submit">新增房屋</button>
-    </form>
+        {/* <label>
+          <input type="text" name="floor" value={formData.currentFloor} onChange={handleChange} />
+          /<input type="text" name="floor" value={formData.totalFloors} onChange={handleChange} />
+        </label> */}
+        <label>
+          坪數:
+          <input type="text" name="area" value={formData.area} onChange={handleChange} />
+        </label>
+        <label>
+          屋齡:
+          <input type="text" name="age" value={formData.age} onChange={handleChange} />
+        </label>
+        <label>
+          網址:
+          <input type="text" name="url" value={formData.url} onChange={handleChange} />
+        </label>
+        <label>
+          地址:
+          <input type="text" name="address" value={formData.address} onChange={handleChange} />
+        </label>
+
+        <Button type="submit">新增房屋</Button>
+      </Stack>
+    </form >
   );
 }
 
