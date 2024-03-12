@@ -1,3 +1,3 @@
 #! /bin/bash
 
-docker build -t yuan/yuan-database:1.0.0 .
+docker build -t house/database:1.0.0 .

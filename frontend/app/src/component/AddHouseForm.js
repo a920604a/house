@@ -10,20 +10,20 @@ import {
   Text
 } from '@chakra-ui/react';
 
-function AddHouseForm() {
+function HouseappForm() {
   const [formData, setFormData] = useState({
     age: '',
     url: '',
     address: '',
-    currentFloor: '', // 新增目前樓層欄位
-    totalFloors: '',  // 新增總樓層欄位
+    currentfloor: '', // 新增目前樓層欄位
+    totalfloor: '',  // 新增總樓層欄位
     area: ''
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/addHouse/add_house/', {
+      const response = await fetch('http://localhost:8000/House/add_house/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,9 +32,19 @@ function AddHouseForm() {
       });
       const data = await response.json();
       console.log(data); // 可以根据返回的数据做进一步处理
+      // 提交后清空表单数据
+      setFormData({
+        age: '',
+        url: '',
+        address: '',
+        currentfloor: '',
+        totalfloor: '',
+        area: ''
+      });
     } catch (error) {
       console.error('Error adding house:', error);
     }
+
   };
 
   const handleChange = (e) => {
@@ -44,7 +54,7 @@ function AddHouseForm() {
   return (
     <form onSubmit={handleSubmit}>
       <Stack shouldWrapChildren direction='row'>
-        <VStack>
+        {/* <VStack>
           <Text>樓層/總樓層 </Text>
           <HStack>
             <NumberInput size='lg' maxW={80} defaultValue={15} min={10} onChange={(value) => handleChange(value, 'currentFloor')}>
@@ -54,12 +64,12 @@ function AddHouseForm() {
             <NumberInput size='lg' maxW={80} defaultValue={15} min={10} onChange={(value) => handleChange(value, 'totalFloors')}>
               <NumberInputField />
             </NumberInput></HStack>
-        </VStack>
+        </VStack> */}
 
-        {/* <label>
-          <input type="text" name="floor" value={formData.currentFloor} onChange={handleChange} />
-          /<input type="text" name="floor" value={formData.totalFloors} onChange={handleChange} />
-        </label> */}
+        <label>
+          <input type="text" name="currentfloor" value={formData.currentfloor} onChange={handleChange} />
+          /<input type="text" name="totalfloor" value={formData.totalfloor} onChange={handleChange} />
+        </label>
         <label>
           坪數:
           <input type="text" name="area" value={formData.area} onChange={handleChange} />
@@ -84,4 +94,4 @@ function AddHouseForm() {
 }
 
 
-export default AddHouseForm;
+export default HouseappForm;

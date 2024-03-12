@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  database:
+    build:
+      context: database/
+      dockerfile: Dockerfile
+    image: house/database:1.0.0
+    restart: unless-stopped
+    volumes:
+      - ./database/data:/var/lib/mysql
+    ports:
+      - "3306:3306" # 将 MySQL 服务映射到本地的 3306 端口
+    environment:
+      MYSQL_ROOT_PASSWORD: admin # 设置 MySQL root 用户的密码
+      MYSQL_DATABASE: my-house # 设置要使用的数据库名称
+      MYSQL_USER: house # 设置要使用的数据库用户
+      MYSQL_PASSWORD: house # 设置数据库用户的密码
+
+  backend:
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+    image: house/backend:1.0.0
+    restart: unless-stopped
+    volumes:
+      - ./backend/app:/app
+    ports:
+      - "8000:8000" # 将后端服务映射到本地的 8000 端口
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    image: house/frontend:1.0.0
+    restart: unless-stopped
+    volumes:
+      - ./frontend/app:/app
+    ports:
+      - "3000:3000" # 将前端服务映射到本地的 3000 端口
+

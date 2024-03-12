@@ -4,12 +4,12 @@ import { MdDelete } from "react-icons/md";
 
 
 function DeleteButton({ houseId, onDelete }) {
-    console.log('houseIdhouseId =', houseId);
+    // console.log('houseIdhouseId =', houseId);
 
     const handleClick = async () => {
         try {
-            console.log("houseId = ", houseId)
-            const response = await fetch(`http://localhost:8000/addHouse/delete_house/${houseId}/`, {
+            // console.log("houseId = ", houseId)
+            const response = await fetch(`http://localhost:8000/House/delete_house/${houseId}/`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
@@ -26,7 +26,7 @@ function DeleteButton({ houseId, onDelete }) {
     };
 
     return (
-        <Button leftIcon={<MdDelete />}  colorScheme='pink' variant='solid' onClick={handleClick}>
+        <Button leftIcon={<MdDelete />} colorScheme='pink' variant='solid' onClick={handleClick}>
             删除
         </Button>
     );

@@ -32,7 +32,7 @@ function HouseList({ houses, onDelete }) {
               </Link></Text>
 
               <Text>地址:</Text>
-              <Text>樓層: {house.floor}</Text>
+              <Text>樓層: {house.currentfloor}/{house.totalfloor}</Text>
               <Text>坪數: {house.area}</Text>
               {house.thumbnail && <img src={house.thumbnail} alt="缩略图" />}
               <DeleteButton houseId={house.id} onDelete={onDelete} />

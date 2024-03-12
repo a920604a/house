@@ -1,9 +1,8 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 
-import AddHouseForm from './component/AddHouseForm';
+import HouseappForm from './component/AddHouseForm';
 import HouseList from './component/HouseList';
-import DeleteButton from './component/DeleteButton';
 
 
 function App() {
@@ -22,8 +21,10 @@ function App() {
   }, []);
   const fetchHouses = async () => {
     try {
-      const response = await fetch('http://localhost:8000/addHouse/house_list/');
+      const response = await fetch('http://localhost:8000/House/house_list/');
       const data = await response.json();
+
+      // console.log("fetchHouses", data)
       setHouses(data.houses);
     } catch (error) {
       console.error('Error fetching houses:', error);
@@ -39,7 +40,7 @@ function App() {
     <div className="App">
       <h1>房屋信息管理系統</h1>
       {/* <h1>House Information</h1> */}
-      <AddHouseForm />
+      <HouseappForm />
       <h2>House List</h2>
       <HouseList houses={houses} onDelete={handleDelete} />
       {/* <HouseList /> */}
