@@ -2,3 +2,6 @@ Django==3.2.8
 djangorestframework==3.12.4
 mysqlclient==2.0.3  # 如果你使用 MySQL 数据库
 django-cors-headers
+djongo
+mongoengine
+django-rest-framework-mongoengine

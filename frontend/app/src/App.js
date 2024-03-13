@@ -3,9 +3,30 @@ import React, { useState, useEffect } from 'react';
 
 import HouseappForm from './component/AddHouseForm';
 import HouseList from './component/HouseList';
-
+import LoginForm from './component/Login';
+import Header from "./component/Header";
 
 function App() {
+  const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
+  const [isLoggedIn, setIsLoggedIn] = useState(initialLoggedInState);
+
+  // 登录成功后的处理函数
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true');
+    console.log("handleLoginSuccess", isLoggedIn);
+  };
+
+  // 登录失败后的处理函数
+  const handleLoginFailure = () => {
+    setIsLoggedIn(false);
+    localStorage.setItem('isLoggedIn', 'false');
+    console.log("handleLoginFailure", isLoggedIn);
+  };
+
+
+
+
   const [houses, setHouses] = useState([]);
 
   useEffect(() => {
@@ -37,15 +58,22 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>房屋信息管理系統</h1>
-      {/* <h1>House Information</h1> */}
-      <HouseappForm />
-      <h2>House List</h2>
-      <HouseList houses={houses} onDelete={handleDelete} />
-      {/* <HouseList /> */}
+    <div>
+      {isLoggedIn ? (
+        // 用户已登录，显示房屋信息管理系统的内容
+        <>
+          <Header isLoggedIn={isLoggedIn} handleLogout={handleLoginFailure} />
 
-    </div>
+          <h1>房屋信息管理系统</h1>
+          <HouseappForm />
+          <HouseList houses={houses} onDelete={handleDelete} />
+        </>
+      ) : (
+        // 用户未登录，显示登录表单
+        <LoginForm onLoginSuccess={handleLoginSuccess} onLoginFailure={handleLoginFailure} />
+      )
+      }
+    </div >
   );
 }
 

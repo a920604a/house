@@ -6,6 +6,7 @@ services:
       context: database/
       dockerfile: Dockerfile
     image: house/database:1.0.0
+    container_name: house-database
     restart: unless-stopped
     volumes:
       - ./database/data:/var/lib/mysql
@@ -17,11 +18,26 @@ services:
       MYSQL_USER: house # 设置要使用的数据库用户
       MYSQL_PASSWORD: house # 设置数据库用户的密码
 
+  cache:
+    build:
+      context: account/
+      dockerfile: Dockerfile
+    image: house/cache:1.0.0
+    container_name: house-cache
+    restart: always
+    ports:
+      - 0.0.0.0:27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - ./account/data:/data
   backend:
     build:
       context: backend/
       dockerfile: Dockerfile
     image: house/backend:1.0.0
+    container_name: house-backend
     restart: unless-stopped
     volumes:
       - ./backend/app:/app
@@ -29,12 +45,14 @@ services:
       - "8000:8000" # 将后端服务映射到本地的 8000 端口
     depends_on:
       - database
+      - cache
 
   frontend:
     build:
       context: frontend/
       dockerfile: Dockerfile
     image: house/frontend:1.0.0
+    container_name: house-frontend
     restart: unless-stopped
     volumes:
       - ./frontend/app:/app
