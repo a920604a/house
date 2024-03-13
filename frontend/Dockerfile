@@ -8,7 +8,12 @@ WORKDIR /app
 
 
 # 复制整个项目文件到工作目录
-COPY ./app/ /app
+COPY ./app/ /
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+RUN chmod +x /bin/docker-entrypoint.sh
+
+ENTRYPOINT [ "/bin/bash", "docker-entrypoint.sh" ]
+
 
 RUN npm install
 # RUN npm install react-scripts -g
