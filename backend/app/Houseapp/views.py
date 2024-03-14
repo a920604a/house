@@ -10,13 +10,14 @@ import json
 def add_house(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        age = data.get("age")
+        print(f"add_house {data}")
+
+        age = int(data.get("age")) if data.get("age") else -1
         url = data.get("url")
         address = data.get("address")
-        currentfloor = data.get("currentfloor")
-        totalfloor = data.get("totalfloor")
-        area = data.get("area")
-        print(f"add_house {data}")
+        currentfloor = int(data.get("currentfloor")) if data.get("currentfloor") else -1
+        totalfloor = int(data.get("totalfloor")) if data.get("totalfloor") else -1
+        area = float(data.get("area")) if data.get("area") else -1
 
         # 创建 House 对象并保存到数据库
         new_house = House(
@@ -28,6 +29,7 @@ def add_house(request):
             area=area,
         )
         new_house.save()
+        print(f"new hosue = {new_house}")
 
         return JsonResponse({"message": "House added successfully"}, status=201)
 

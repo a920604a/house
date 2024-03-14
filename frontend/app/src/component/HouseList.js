@@ -21,6 +21,7 @@ function HouseList({ houses, onDelete }) {
       >
         {houses.map((house, index) => (
           <Card
+            key={house.id} // muse have key
             id={house.id}
             currentF={house.currentfloor}
             totalF={house.totalfloor}
@@ -29,6 +30,7 @@ function HouseList({ houses, onDelete }) {
             url={house.url}
             address={house.address}
             onDelete={onDelete}
+            update={house.updated_at}
           >
           </Card>
         ))}

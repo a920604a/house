@@ -7,10 +7,17 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Stack, VStack, HStack,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Input,
   Button,
-  Text
+  Text,
+  Flex
 } from '@chakra-ui/react';
-
+import * as Yup from 'yup';
+import { useFormik, Form, Formik } from 'formik';
 function HouseappForm() {
   const [formData, setFormData] = useState({
     age: '',
@@ -21,15 +28,15 @@ function HouseappForm() {
     area: ''
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmitbackend = async (e) => {
+
     try {
       const response = await fetch('http://localhost:8000/House/add_house/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(e),
       });
       const data = await response.json();
       console.log(data); // 可以根据返回的数据做进一步处理
@@ -48,41 +55,91 @@ function HouseappForm() {
 
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
+
+  const formik = useFormik({
+    // STEP 2-1：建立初始值
+    initialValues: {
+      currentfloor: "",
+      totalfloor: "",
+      area: "",
+      age: "",
+      url: "",
+      address: ""
+    },
+    // STEP 2：搭配 Yup 使用 validationSchema
+    validationSchema: Yup.object({
+
+      // currentfloor: Yup.string().min(0, "至少要一樓"),
+      // totalfloor: Yup.string().min(0, "至少要一樓"),
+      // area: Yup.string().min(0, "至少要一坪"),
+      url: Yup.string().required("必填"),
+      address: Yup.string().required("必填"),
+    }),
+    onSubmit: handleSubmitbackend
+
+  });
 
   return (
     <HStack>
-      <Heading as="h1">
+      <Heading as="h3">
         新增房屋
       </Heading>
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input type="text" name="currentfloor" value={formData.currentfloor} onChange={handleChange} />
-          /<input type="text" name="totalfloor" value={formData.totalfloor} onChange={handleChange} />
-        </label>
-        <label>
-          坪數:
-          <input type="text" name="area" value={formData.area} onChange={handleChange} />
-        </label>
-        <label>
-          屋齡:
-          <input type="text" name="age" value={formData.age} onChange={handleChange} />
-        </label>
-        <label>
-          網址:
-          <input type="text" name="url" value={formData.url} onChange={handleChange} />
-        </label>
-        <label>
-          地址:
-          <input type="text" name="address" value={formData.address} onChange={handleChange} />
-        </label>
+      <form onSubmit={formik.handleSubmit} style={{ backgroundColor: "#B8FEFF" }}>
+        <FormControl isInvalid={!!formik.errors.currentfloor && formik.touched.currentfloor}>
+          <FormLabel htmlFor="currentfloor">樓層</FormLabel>
+          <Input id="currentfloor" name="currentfloor" {...formik.getFieldProps("currentfloor")} placeholder='樓層' />
+          <FormErrorMessage>{formik.errors.currentfloor}</FormErrorMessage>
+        </FormControl>
 
-        <Button type="submit">新增房屋</Button>
+        <FormLabel htmlFor="totalfloor"> 總樓層 </FormLabel>
+        <FormControl isInvalid={!!formik.errors.totalfloor && formik.touched.totalfloor}>
+          <Input id="totalfloor" name="totalfloor" {...formik.getFieldProps("totalfloor")} placeholder='總樓層' />
+          <FormErrorMessage>{formik.errors.totalfloor}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!formik.errors.area && formik.touched.area}>
+          <FormLabel htmlFor="area">坪數:</FormLabel>
+          <Input id="area" {...formik.getFieldProps("area")} placeholder='坪數'></Input>
+          <FormErrorMessage>{formik.errors.area}</FormErrorMessage>
+
+
+
+        </FormControl>
+        <FormControl isInvalid={!!formik.errors.age && formik.touched.age}>
+          <FormLabel htmlFor="age" >屋齡:</FormLabel>
+          <Input id="age" {...formik.getFieldProps("age")} placeholder='屋齡'></Input>
+          <FormErrorMessage>{formik.errors.age}</FormErrorMessage>
+
+
+        </FormControl>
+        <FormControl isInvalid={!!formik.errors.url && formik.touched.url}>
+          <FormLabel htmlFor="url">網址:</FormLabel>
+          <Input id="url" {...formik.getFieldProps("url")} placeholder='網址'></Input>
+          <FormErrorMessage>{formik.errors.url}</FormErrorMessage>
+
+
+
+        </FormControl>
+        <FormControl isInvalid={!!formik.errors.address && formik.touched.address}>
+          <FormLabel htmlFor="address">地址:</FormLabel>
+          <Input id="address" {...formik.getFieldProps("address")} placeholder='地址'></Input>
+          <FormErrorMessage>{formik.errors.address}</FormErrorMessage>
+
+
+        </FormControl>
+        <Flex justifyContent="flex-end">
+
+          <Button type="submit" colorScheme='teal' width="full" >
+            新增房屋
+          </Button>
+        </Flex>
+
       </form >
-    </HStack>
+    </HStack >
   );
 }
 
