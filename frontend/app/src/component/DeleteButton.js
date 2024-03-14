@@ -4,7 +4,6 @@ import { MdDelete } from "react-icons/md";
 
 
 function DeleteButton({ houseId, onDelete }) {
-    // console.log('houseIdhouseId =', houseId);
 
     const handleClick = async () => {
         try {

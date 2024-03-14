@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Heading,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -52,20 +53,12 @@ function HouseappForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack shouldWrapChildren direction='row'>
-        {/* <VStack>
-          <Text>樓層/總樓層 </Text>
-          <HStack>
-            <NumberInput size='lg' maxW={80} defaultValue={15} min={10} onChange={(value) => handleChange(value, 'currentFloor')}>
-              <NumberInputField />
-            </NumberInput>
-            <Text>/</Text>
-            <NumberInput size='lg' maxW={80} defaultValue={15} min={10} onChange={(value) => handleChange(value, 'totalFloors')}>
-              <NumberInputField />
-            </NumberInput></HStack>
-        </VStack> */}
+    <HStack>
+      <Heading as="h1">
+        新增房屋
+      </Heading>
 
+      <form onSubmit={handleSubmit}>
         <label>
           <input type="text" name="currentfloor" value={formData.currentfloor} onChange={handleChange} />
           /<input type="text" name="totalfloor" value={formData.totalfloor} onChange={handleChange} />
@@ -88,8 +81,8 @@ function HouseappForm() {
         </label>
 
         <Button type="submit">新增房屋</Button>
-      </Stack>
-    </form >
+      </form >
+    </HStack>
   );
 }
 

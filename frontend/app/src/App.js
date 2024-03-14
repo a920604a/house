@@ -1,12 +1,26 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import HouseappForm from './component/AddHouseForm';
 import HouseList from './component/HouseList';
 import LoginForm from './component/Login';
 import Header from "./component/Header";
-
+import { UserProvider, UserContext } from "./component/authContext";
 function App() {
+
+
+
+  return (
+    <UserProvider>
+      <AppContent />
+    </UserProvider>
+  );
+}
+
+const AppContent = () => {
+  const { setUsername, username } = useContext(UserContext);
+
+  const [houses, setHouses] = useState([]);
   const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
   const [isLoggedIn, setIsLoggedIn] = useState(initialLoggedInState);
 
@@ -22,12 +36,8 @@ function App() {
     setIsLoggedIn(false);
     localStorage.setItem('isLoggedIn', 'false');
     console.log("handleLoginFailure", isLoggedIn);
+    setUsername("");
   };
-
-
-
-
-  const [houses, setHouses] = useState([]);
 
   useEffect(() => {
     // 初始加載房屋列表
@@ -56,6 +66,7 @@ function App() {
     // 刷新房屋列表
     fetchHouses();
   };
+
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from "axios";
 import {
     NumberInput,
@@ -13,20 +13,23 @@ import {
     Text
 } from '@chakra-ui/react';
 import { login } from "./auth";
+import { UserContext } from './authContext';
 
 
 // https://ithelp.ithome.com.tw/articles/10280317
 
 export default function LoginForm({ onLoginSuccess, onLoginFailure }) {
 
-    const [username, setUsername] = useState("");
+    // const [username, setUsername] = useState("");
+    const { username, setUsername } = useContext(UserContext);
+
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
 
 
     const clearForm = () => {
-        setUsername("");
+        // setUsername("");
         setPassword("");
     };
 
