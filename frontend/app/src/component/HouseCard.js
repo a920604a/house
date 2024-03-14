@@ -2,10 +2,10 @@ import React from "react";
 import { Heading, Link, Image, Text, VStack } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import DeleteButton from './DeleteButton'; // 确保正确导入 DeleteButton 组件
+import CommonCard from './commonCard';
 
 
-
-const Card = ({ id, currentF, totalF, area, age, url, address, onDelete, update }) => {
+const HouseCard = ({ id, currentF, totalF, area, age, url, address, onDelete, update }) => {
     const cardProperty = {
         backgroundColor: "#DAF7A6",
         borderRadius: "10px",
@@ -14,7 +14,8 @@ const Card = ({ id, currentF, totalF, area, age, url, address, onDelete, update 
 
     }
     return (
-        <VStack style={cardProperty} >
+        // <VStack style={cardProperty} >
+        <CommonCard>
             <Heading size='md'>
                 {address}
             </Heading>
@@ -30,8 +31,9 @@ const Card = ({ id, currentF, totalF, area, age, url, address, onDelete, update 
             <Text>坪數: {area}</Text>
             <DeleteButton houseId={id} onDelete={onDelete} />
             <Text>更新時間: {update}</Text>
-        </VStack>
+            {/* </VStack> */}
+        </CommonCard>
 
     );
 }
-export default Card;
+export default HouseCard;
