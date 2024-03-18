@@ -11,6 +11,32 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import redis
+import os
+
+
+# 在 settings.py 中定義一個函數用來讀取 Redis 的相關配置
+def get_redis_config():
+    # 預設的 Redis 連接資訊
+    redis_host = os.environ.get("REDIS_HOST")
+    redis_port = os.environ.get("REDIS_PORT")
+    redis_password = None
+
+    # 如果你想要從環境變數中讀取 Redis 的配置，可以在這裡進行設置
+    # 例如，假設你的環境變數中包含了 REDIS_HOST、REDIS_PORT 和 REDIS_PASSWORD
+    # 你可以透過 os.environ.get() 方法來讀取這些環境變數的值
+    redis_host = os.environ.get("REDIS_HOST", redis_host)
+    redis_port = int(os.environ.get("REDIS_PORT", redis_port))
+    redis_password = os.environ.get("REDIS_PASSWORD", redis_password)
+
+    return redis_host, redis_port, redis_password
+
+
+# 從配置中獲取 Redis 的相關設置
+redis_host, redis_port, redis_password = get_redis_config()
+
+# 初始化 Redis 連接
+r = redis.Redis(host=redis_host, port=redis_port, password=redis_password, db=0)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

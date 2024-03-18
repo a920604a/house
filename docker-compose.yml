@@ -41,6 +41,7 @@ services:
       - ./backend/app:/app
     environment:
       REDIS_HOST: cache
+      REDIS_PORT: 6379
     ports:
       - "8000:8000" # 将后端服务映射到本地的 8000 端口
     depends_on:

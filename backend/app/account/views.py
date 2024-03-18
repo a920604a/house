@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import redis
+import os
 
 # 连接到 Redis
 r = redis.Redis(host="cache", port=6379, db=0, password="")
