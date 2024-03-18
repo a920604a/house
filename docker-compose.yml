@@ -26,12 +26,10 @@ services:
     container_name: house-cache
     restart: always
     ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: admin
+      - 6379:6379
     volumes:
       - ./account/data:/data
+
   backend:
     build:
       context: backend/
@@ -41,6 +39,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./backend/app:/app
+    environment:
+      REDIS_HOST: cache
     ports:
       - "8000:8000" # 将后端服务映射到本地的 8000 端口
     depends_on:
@@ -58,4 +58,3 @@ services:
       - ./frontend/app:/app
     ports:
       - "3000:3000" # 将前端服务映射到本地的 3000 端口
-

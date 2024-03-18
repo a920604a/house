@@ -1,8 +1,4 @@
-mongo -u root -p admin --authenticationDatabase admin local1 
+redis-cli
 
-use account;
-db.createCollection("account")
-db.account.insertOne({
-    user:"22779600",
-    pwd:"22779600"
-})
+SET username "22779600"
+SET password "22779600"

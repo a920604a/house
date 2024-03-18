@@ -1,7 +1,10 @@
-from .models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import redis
+
+# 连接到 Redis
+r = redis.Redis(host="cache", port=6379, db=0, password="")
 
 
 @csrf_exempt
@@ -11,15 +14,15 @@ def login(request):
         data = json.loads(request.body)
         username = data.get("username")
         password = data.get("password")
-        print(f"login {username} and {password}")
-        # isExisted = User.objects.get(username=username, password=password)
-        # print(f"the username {username} is {isExisted}")
-        # if isExisted:
-        #     return JsonResponse({"status": "success", "message": "Account exists"})
-        # else:
-        #     return JsonResponse(
-        #         {"status": "error", "message": "Account does not exist"}
-        #     )
-        return JsonResponse({"status": "success", "message": "Account exists"})
-    else:
-        return JsonResponse({"error": "Only POST requests are allowed"}, status=400)
+        isExisted = (
+            r.get("username").decode("utf-8") == username
+            and r.get("password").decode("utf-8") == password
+        )
+
+        print(f"the username {username} is {isExisted}")
+        if isExisted:
+            return JsonResponse({"status": "success", "message": "Account exists"})
+        else:
+            return JsonResponse(
+                {"status": "error", "message": "Account does not exist"}
+            )

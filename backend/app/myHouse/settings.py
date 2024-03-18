@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     "Houseapp",
     "account",
     "corsheaders",
-    "rest_framework",
-    "rest_framework_mongoengine",
 ]
 
 MIDDLEWARE = [
@@ -76,6 +74,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myHouse.wsgi.application"
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://cache:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -89,14 +96,6 @@ DATABASES = {
         "HOST": "database",  # MySQL 容器的名稱
         "PORT": "3306",  # MySQL 容器的端口
         "OPTIONS": {"read_default_file": "/etc/mysql/my.cnf"},
-    },
-    "mongodb": {
-        "ENGINE": "djongo",
-        "NAME": "account",
-        "ENFORCE_SCHEMA": False,  # 如果您不希望強制MongoDB的結構，可以設置為False
-        "CLIENT": {
-            "host": "mongodb://cache:27017/",  # MongoDB連接的主機和端口
-        },
     },
 }
 
